@@ -1,15 +1,22 @@
 package com.snail.tour.site.analysis;
 
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import org.springframework.web.context.ContextLoaderListener;
 
 
 public class TuNiuPageAnalysis extends BasePageAnalysis implements PageAnalysis {
 		
+	public TuNiuPageAnalysis(AnalysisBean bean) {
+		super(bean);
+	}
+
+
 	protected Pattern keyPattern = Pattern.compile("【(?<key>[\u4e00-\u9fa50-9a-zA-Z]+)】");
 	protected Pattern titlePattern = Pattern.compile("<title>(?<title>.*)</title>");
 	
@@ -58,6 +65,8 @@ public class TuNiuPageAnalysis extends BasePageAnalysis implements PageAnalysis 
 		String html = pageUtils.getContent(url);
 		Document doc = Jsoup.parse(html);
 		
+		
+		
 		this.setTitle(doc, pc);
 		this.setPrice(doc, pc);
 		this.setContent(doc, pc);
@@ -69,21 +78,8 @@ public class TuNiuPageAnalysis extends BasePageAnalysis implements PageAnalysis 
 	
 	public static void main(String []args){
 		
-		TuNiuPageAnalysis t = new TuNiuPageAnalysis();
-		PageContent p = t.getContents("http://tj.tuniu.com/tours/486231");
-		
-		System.out.println("title : "+p.getTitle());
-		
-		for (String key :p.getContentMap().keySet()){
-			System.out.printf("key:%s  content:%s",key,p.getContentMap().get(key));
-			System.out.println("");
-		}
-	}
-
-
-	@Override
-	protected Pattern getTitlePattern() {
-		return titlePattern;
+		System.out.println(123);
+		//System.out.println("tuniu.com".matches("http://tj.tuniu.com/tours/631663#source=cc"));
 	}
 
 }
